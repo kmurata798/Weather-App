@@ -64,7 +64,7 @@ def index_post():
 
     # Check if user input a city
     if new_city:
-        # Declare a variable to grab/hold the first city in API IF it already exists in database == City already exists
+        # Declare a variable to grab/hold the first city in API. IF it already exists in database == City already exists in database
         existing_city = City.query.filter_by(name=new_city).first()
 
         # If the city does not already exist...
