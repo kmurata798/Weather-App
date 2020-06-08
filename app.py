@@ -10,11 +10,20 @@ def index():
     # OpenWeatherMap API url
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=a95bbf99e1761eac5543637aac409d6e'
     # Temporary test data
-    city = 'Las Vegas'
+    city = 'San Francisco'
 
     # Requesting info from weatherAPI. 'url.format(city)' inserts my 'city' variable into the {} inside url variable.
+    # r => all data included in the API
     r = requests.get(url.format(city)).json()
-    print(r)
+    # print(r)
+
+    weather = {
+        'city': city,
+        'temperature': r['main']['temp'],
+        'description': r['weather'][0]['description'],
+        'icon': r['weather'][0]['icon'],
+    }
+    print(weather)
     return render_template('weather.html')
 
 
