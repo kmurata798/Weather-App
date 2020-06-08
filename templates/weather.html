@@ -35,6 +35,31 @@
                                 </button>
                             </div>
                         </div>
+                        <!-- 'with' -> If there are messages, then display the message. ELSE, skip the message. -->
+                        <!-- Get FLASH message, with_categories specifies danger, success, primary, etc... -->
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                        <!-- Check to see if there are any messages. -->
+                        {% if messages %}
+                        <!-- Loop over messages that I have. -->
+                        <!-- category, message because we receive a tuple of category + message. -->
+                            {% for category, message in messages %}
+                                <!-- Check which category the message is. -->
+                                <!-- Assume category is always success. -->
+                                {% set message_class = 'is-success' %}
+                                <!-- If error is received, change from success to error category. -->
+                                {% if category == 'error' %}
+                                    {% set message_class = 'is-danger' %}
+                                {% endif %}
+                                <div class="notification {{ message_class }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        {% endwith %}
+                        <!-- Loop over category messages from get_flashed_messages.
+                        Set message_class to 'is-success'.
+                        If message is actually error, change message_class to 'is-danger'.
+                        If message is actually 'is-success', do nothing.
+                        Insert message_class into <div class=...
+                        Display actual message itself {{ message }} -->
                     </form>
                 </div>
             </div>
