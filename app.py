@@ -24,7 +24,7 @@ def index():
         'icon': r['weather'][0]['icon'],
     }
     print(weather)
-    return render_template('weather.html')
+    return render_template('weather.html', weather=weather)
 
 
 
