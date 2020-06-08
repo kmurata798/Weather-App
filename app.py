@@ -92,3 +92,20 @@ def index_post():
         flash('City Added Successfully!')
     # redirect takes user back to the desired route
     return redirect(url_for('index_get'))
+
+@app.route('/delete/<name>')
+def delete_city(name):
+# Remove city from database
+    # Query/search for city in database, and give me first result.
+    city = City.query.filter_by(name=name).first()
+    # Delete 'city' from database
+    db.session.delete(city)
+    # Confirm changes
+    db.session.commit()
+
+    # Send FLASH message as success category
+    flash(f'Successfully deleted { city.name }', 'success')
+    # Send user back to main index page.
+    return redirect(url_for('index_get'))
+    # NOTE: Even though you delete a city from the database, you still have access to it until you exit the route
+    
