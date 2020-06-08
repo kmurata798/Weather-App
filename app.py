@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__) 
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather.db'
+# SQLALCHEMY_TRACK_MODIFICATIONS gets rid of the SQLAlchemy message that displays everytime I run the server
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
@@ -17,6 +19,7 @@ class City(db.Model):
 def index():
     if request.method == 'POST':
         new_city = request.form.get('city')
+
         if new_city:
             new_city_obj = City(name=new_city)
             db.session.add(new_city_obj)
@@ -53,6 +56,3 @@ def index():
 
 
 
-
-# if __name__ == '__main__': 
-#     app.run(debug = True) 
