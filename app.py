@@ -18,7 +18,7 @@ class City(db.Model):
 
 class Mood(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    mood = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
 
 def get_weather_data(city):
     # OpenWeatherMap API url
@@ -117,9 +117,23 @@ def delete_city(name):
     return redirect(url_for('index_get'))
     # NOTE: Even though you delete a city from the database, you still have access to it until you exit the route
 
-@app.route('/view/<name>', methods=['POST'])
+@app.route('/view/<name>')
 def view_city(name):
 # View city
+    curr_city = City.query.filter_by(name=name)
+    r = get_weather_data(curr_city.name)
+    
+    weather = {
+        'city': curr_city.name,
+        'temperature': r['main']['temp'],
+        'description': r['weather'][0]['description'],
+        'icon': r['weather'][0]['icon'],
+    }
+    return render_template('view.html', weather_data=weather)
+    
+    
+@app.route('/view/<name>/', methods=['POST'])
+def post_mood():
     # Get 'mood' field from user input
     new_mood = request.form.get('mood')
     # Store the entered city into this variable as an object
